@@ -2,18 +2,22 @@ input.onButtonPressed(Button.A, function () {
     Outcome = "" + Outcome + "0"
 })
 input.onButtonPressed(Button.AB, function () {
-    basic.showString(Outcome)
-    radio.sendString(Outcome)
+    basic.showString("" + (Outcome))
+    radio.sendString("" + (Outcome))
 })
 radio.onReceivedString(function (receivedString) {
-    ReceivedMorseCode = receivedString
-    MorseCodeIndex = MorseCode.indexOf(ReceivedMorseCode)
-    if (MorseCodeIndex > -1) {
-        OutcomeValue = AlphaNum[MorseCodeIndex]
-        basic.showString("" + (OutcomeValue))
-    } else {
-        basic.showIcon(IconNames.Sad)
+    Word = receivedString.split("-")
+    OutcomeValue = ""
+    for (let value of Word) {
+        ReceivedMorseCode = value
+        MorseCodeIndex = MorseCode.indexOf(ReceivedMorseCode)
+        if (MorseCodeIndex > -1) {
+            OutcomeValue = "" + OutcomeValue + AlphaNum[MorseCodeIndex]
+        } else {
+            OutcomeValue = "" + OutcomeValue + "!"
+        }
     }
+    basic.showString("" + (OutcomeValue))
 })
 input.onButtonPressed(Button.B, function () {
     Outcome = "" + Outcome + "1"
@@ -25,16 +29,12 @@ input.onGesture(Gesture.Shake, function () {
     basic.clearScreen()
 })
 input.onLogoEvent(TouchButtonEvent.Pressed, function () {
-    Word = "101-00-0010-01-101".split("-")
-    for (let value of Word) {
-        basic.showString("" + (value))
-        basic.pause(1000)
-    }
+    Outcome = "" + Outcome + "-"
 })
-let Word: string[] = []
-let OutcomeValue = ""
 let MorseCodeIndex = 0
 let ReceivedMorseCode = ""
+let OutcomeValue = ""
+let Word: string[] = []
 let Outcome = ""
 let MorseCode: string[] = []
 let AlphaNum: string[] = []
